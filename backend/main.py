@@ -19,6 +19,11 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
+# Print the IP address of the current machine (useful for debugging)
+# hostname = socket.gethostname()
+# local_ip = socket.gethostbyname(hostname)
+# print(f"Local IP Address: {local_ip}")
+
 # MongoDB connection using your connection string
 client = MongoClient(os.getenv('MONGO_URI'))
 db = client["iiith_sports_council"]

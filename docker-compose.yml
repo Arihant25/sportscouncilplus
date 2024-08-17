@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      MONGO_URL: mongodb+srv://arihanttr:B0tcy9Ff8TpPPaw9@cluster0.lofh1ug.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    depends_on:
+      - frontend
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
