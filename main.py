@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from pymongo import MongoClient
 from pydantic import BaseModel
-from typing import List
 from fastapi.middleware.cors import CORSMiddleware
-from bson import ObjectId
-from bson.json_util import dumps
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = FastAPI()
 
@@ -17,14 +19,16 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# MongoDB connection
-client = MongoClient("mongodb://localhost:27017/")
+# MongoDB connection using your connection string
+client = MongoClient(os.getenv('MONGO_URI'))
 db = client["iiith_sports_council"]
 members_collection = db["members"]
-# Debug time
-print(members_collection["members"], "GAY")
-# Get members
-print(list(members_collection.find()))
+
+
+# Helper function to convert MongoDB documents to a serializable format
+def serialize_doc(doc):
+    doc["_id"] = str(doc["_id"])  # Convert ObjectId to string
+    return doc
 
 
 # Pydantic model
@@ -50,10 +54,9 @@ def get_council_info():
 # API to get members list
 @app.get("/members")
 def get_members():
-    print(members_collection)
     members = list(members_collection.find())
-    print(members)
-    return members
+    serialized_members = [serialize_doc(member) for member in members]
+    return serialized_members
 
 
 # Run the FastAPI app
