@@ -8,7 +8,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      MONGO_URL: mongodb+srv://arihanttr:B0tcy9Ff8TpPPaw9@cluster0.lofh1ug.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      MONGO_URL: mongodb+srv://user123:pass123@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority
     depends_on:
       - frontend
 
